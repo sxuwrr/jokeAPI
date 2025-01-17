@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joke API</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <h1>Here's the joke from the API</h1>
+        <em id="joke">
+            <%= joke %>
+        </em>
+ 
+    <button id="generate-joke">Generate new joke</button>
+
+    </div>
+
+    <script src="https://unpkg.com/sv443-joke-api@0.0.8/web/index.js"></script>
+    <script>
+        document.getElementById('generate-joke').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/newjoke');
+                const data = await response.json();
+                document.getElementById('joke').innerText = data.joke;
+            } catch (error) {
+                console.error(error);
+                alert("Failed to load new joke");
+            }
+        });
+    </script>
+</body>
+
+</html>
