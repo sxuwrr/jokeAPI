@@ -11,25 +11,26 @@
 <body>
     <div class="main-container">
         <h1>Here's the joke from the API</h1>
-        <em id="joke">
-            <%= joke %>
-        </em>
- 
-    <button id="generate-joke">Generate new joke</button>
-
+        <em id="joke"><%- joke || "No joke found!" %></em>
+        <br>
+        <button id="generate-joke">Generate new joke</button>
     </div>
 
-    <script src="https://unpkg.com/sv443-joke-api@0.0.8/web/index.js"></script>
     <script>
-        document.getElementById('generate-joke').addEventListener('click', async () => {
-            try {
-                const response = await fetch('/newjoke');
-                const data = await response.json();
-                document.getElementById('joke').innerText = data.joke;
-            } catch (error) {
-                console.error(error);
-                alert("Failed to load new joke");
-            }
+        document.addEventListener("DOMContentLoaded", () => {
+            const jokeElement = document.getElementById("joke");
+            const button = document.getElementById("generate-joke");
+
+            button.addEventListener("click", async () => {
+                try {
+                    const response = await fetch("/newjoke");
+                    const data = await response.json();
+                    jokeElement.innerText = data.joke || "No joke found!";
+                } catch (error) {
+                    console.error("Error fetching joke:", error);
+                    jokeElement.innerText = "Failed to load new joke.";
+                }
+            });
         });
     </script>
 </body>
